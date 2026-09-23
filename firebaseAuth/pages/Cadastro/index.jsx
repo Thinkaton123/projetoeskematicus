@@ -1,18 +1,20 @@
-import { useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
+import { useState } from "react"
+import { View, Text, TextInput, Button } from "react-native"
+import { createUserWithEmailAndPassword } from "firebase/auth"
+import { auth } from "../../firebaseConfig"
 
-export default function Cadastro() {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+export default function Cadastro({ navigation }) {
+  const [email, setEmail] = useState("")
+  const [senha, setSenha] = useState("")
 
   async function cadastrar() {
     try {
-      await createUserWithEmailAndPassword(auth, email, senha);
-      alert("Cadastro realizado!");
+      await createUserWithEmailAndPassword(auth, email, senha)
+
+      alert("Cadastro realizado!")
+      navigation.navigate("login")
     } catch (error) {
-      alert("Erro ao cadastrar");
+      alert("Erro ao cadastrar")
     }
   }
 
@@ -21,7 +23,7 @@ export default function Cadastro() {
       <Text>Cadastro</Text>
 
       <TextInput
-        placeholder="Email"
+        placeholder="E-mail"
         value={email}
         onChangeText={setEmail}
       />
@@ -33,7 +35,15 @@ export default function Cadastro() {
         secureTextEntry
       />
 
-      <Button title="Cadastrar" onPress={cadastrar} />
+      <Button
+        title="Cadastrar"
+        onPress={cadastrar}
+      />
+
+      <Button
+        title="Voltar para Login"
+        onPress={() => navigation.navigate("login")}
+      />
     </View>
-  );
+  )
 }

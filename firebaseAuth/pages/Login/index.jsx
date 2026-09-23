@@ -1,18 +1,20 @@
-import { useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
+import { useState } from "react"
+import { View, Text, TextInput, Button } from "react-native"
+import { signInWithEmailAndPassword } from "firebase/auth"
+import { auth } from "../../firebaseConfig"
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+export default function Login({ navigation }) {
+  const [email, setEmail] = useState("")
+  const [senha, setSenha] = useState("")
 
   async function entrar() {
     try {
-      await signInWithEmailAndPassword(auth, email, senha);
-      alert("Login feito, CATXUGA!!");
+      await signInWithEmailAndPassword(auth, email, senha)
+
+      alert("Login realizado!")
+      navigation.navigate("logout")
     } catch (error) {
-      alert("Você errou..............................");
+      alert("E-mail ou senha incorretos")
     }
   }
 
@@ -21,7 +23,7 @@ export default function Login() {
       <Text>Login</Text>
 
       <TextInput
-        placeholder="Email"
+        placeholder="E-mail"
         value={email}
         onChangeText={setEmail}
       />
@@ -33,7 +35,15 @@ export default function Login() {
         secureTextEntry
       />
 
-      <Button title="Entrar" onPress={entrar} />
+      <Button
+        title="Entrar"
+        onPress={entrar}
+      />
+
+      <Button
+        title="Criar conta"
+        onPress={() => navigation.navigate("cadastro")}
+      />
     </View>
-  );
+  )
 }
